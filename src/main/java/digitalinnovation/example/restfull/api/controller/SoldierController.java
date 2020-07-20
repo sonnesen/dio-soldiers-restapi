@@ -30,49 +30,52 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SoldierController {
 
-    private final SoldierService soldierService;
+  private final SoldierService soldierService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SoldierResource> findById(@PathVariable() Long id) throws SoldierNotFoundException {
-	SoldierResource resource = soldierService.findById(id);
-	addLinkToResource(resource);
-	return ResponseEntity.status(HttpStatus.OK).body(resource);
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<SoldierResource> findById(@PathVariable() Long id)
+      throws SoldierNotFoundException {
+    SoldierResource resource = soldierService.findById(id);
+    addLinkToResource(resource);
+    return ResponseEntity.status(HttpStatus.OK).body(resource);
+  }
 
-    private SoldierResource addLinkToResource(SoldierResource resource) {
-	return resource.add(linkTo(SoldierController.class)
-		.slash(resource.getId())
-		.withSelfRel());
-    }
+  private SoldierResource addLinkToResource(SoldierResource resource) {
+    return resource.add(linkTo(SoldierController.class).slash(resource.getId()).withSelfRel());
+  }
 
-    @PostMapping
-    public ResponseEntity<SoldierResource> save(@RequestBody @Valid SoldierResource soldierResource) {
-	SoldierResource resource = soldierService.save(soldierResource);
-	addLinkToResource(resource);
-	return ResponseEntity.status(HttpStatus.CREATED).body(resource);
-    }
+  @PostMapping
+  public ResponseEntity<SoldierResource> save(@RequestBody @Valid SoldierResource soldierResource) {
+    SoldierResource resource = soldierService.save(soldierResource);
+    addLinkToResource(resource);
+    return ResponseEntity.status(HttpStatus.CREATED).body(resource);
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<SoldierResource> update(@PathVariable() Long id,
-	    @RequestBody @Valid SoldierResource soldierResource) throws SoldierNotFoundException {
-	SoldierResource resource = soldierService.update(id, soldierResource);
-	addLinkToResource(resource);
-	return ResponseEntity.ok(resource);
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<SoldierResource> update(
+      @PathVariable() Long id, @RequestBody @Valid SoldierResource soldierResource)
+      throws SoldierNotFoundException {
+    SoldierResource resource = soldierService.update(id, soldierResource);
+    addLinkToResource(resource);
+    return ResponseEntity.ok(resource);
+  }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws SoldierNotFoundException {
-	soldierService.deleteById(id);
-    }
+  @DeleteMapping("/{id}")
+  @ResponseStatus(code = HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable Long id) throws SoldierNotFoundException {
+    soldierService.deleteById(id);
+  }
 
-    @GetMapping
-    public ResponseEntity<CollectionModel<SoldierResource>> findAll() {
-	List<SoldierResource> soldiers = soldierService.findAll().stream()
-		.map(soldier -> addLinkToResource(soldier))
-		.collect(Collectors.toList());
+  @GetMapping
+  public ResponseEntity<CollectionModel<SoldierResource>> findAll() {
+    List<SoldierResource> soldiers =
+        soldierService
+            .findAll()
+            .stream()
+            .map(soldier -> addLinkToResource(soldier))
+            .collect(Collectors.toList());
 
-	return ResponseEntity.ok()
-		.body(CollectionModel.of(soldiers, linkTo(SoldierController.class).withRel("soldiers")));
-    }
+    return ResponseEntity.ok()
+        .body(CollectionModel.of(soldiers, linkTo(SoldierController.class).withRel("soldiers")));
+  }
 }

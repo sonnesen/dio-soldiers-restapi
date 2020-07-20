@@ -18,17 +18,13 @@ import lombok.NonNull;
 @Builder
 public class Soldier {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @NonNull
-    private String nome;
-    
-    @NonNull
-    private Raca raca;
-    
-    @NonNull
-    private String arma;
+  @NonNull private String nome;
 
+  @NonNull private Raca raca;
+
+  @NonNull private String arma;
 }

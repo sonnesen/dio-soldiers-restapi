@@ -16,45 +16,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SoldierService {
 
-    private final SoldierRepository soldierRepository;
-    private SoldierMapper soldierMapper = SoldierMapper.INSTANCE;
+  private final SoldierRepository soldierRepository;
+  private SoldierMapper soldierMapper = SoldierMapper.INSTANCE;
 
-    public SoldierResource findById(Long id) throws SoldierNotFoundException {
-	Soldier soldier = verifyIfExists(id);
-	return soldierMapper.toDTO(soldier);
-    }
+  public SoldierResource findById(Long id) throws SoldierNotFoundException {
+    Soldier soldier = verifyIfExists(id);
+    return soldierMapper.toDTO(soldier);
+  }
 
-    private Soldier verifyIfExists(Long id) throws SoldierNotFoundException {
-	return soldierRepository.findById(id).orElseThrow(() -> new SoldierNotFoundException(id));
-    }
+  private Soldier verifyIfExists(Long id) throws SoldierNotFoundException {
+    return soldierRepository.findById(id).orElseThrow(() -> new SoldierNotFoundException(id));
+  }
 
-    public SoldierResource save(SoldierResource soldierResource) {
-	Soldier soldier = soldierMapper.toModel(soldierResource);
-	Soldier savedSoldier = soldierRepository.save(soldier);
-	return soldierMapper.toDTO(savedSoldier);
-    }
+  public SoldierResource save(SoldierResource soldierResource) {
+    Soldier soldier = soldierMapper.toModel(soldierResource);
+    Soldier savedSoldier = soldierRepository.save(soldier);
+    return soldierMapper.toDTO(savedSoldier);
+  }
 
-    public SoldierResource update(Long id, SoldierResource soldierResource) throws SoldierNotFoundException {
-	Soldier soldier = verifyIfExists(id);
+  public SoldierResource update(Long id, SoldierResource soldierResource)
+      throws SoldierNotFoundException {
+    Soldier soldier = verifyIfExists(id);
 
-	soldier = soldierMapper.toModel(soldierResource);
-	soldier.setId(id);
+    soldier = soldierMapper.toModel(soldierResource);
+    soldier.setId(id);
 
-	Soldier updatedSoldier = soldierRepository.save(soldier);
+    Soldier updatedSoldier = soldierRepository.save(soldier);
 
-	return soldierMapper.toDTO(updatedSoldier);
-    }
+    return soldierMapper.toDTO(updatedSoldier);
+  }
 
-    public void deleteById(Long id) throws SoldierNotFoundException {
-	Soldier soldier = verifyIfExists(id);
-	soldierRepository.delete(soldier);
-    }
+  public void deleteById(Long id) throws SoldierNotFoundException {
+    Soldier soldier = verifyIfExists(id);
+    soldierRepository.deleteById(soldier.getId());
+  }
 
-    public List<SoldierResource> findAll() {
-	return soldierRepository.findAll()
-		.stream()
-		.map(soldierMapper::toDTO)
-		.collect(Collectors.toList());
-    }
-
+  public List<SoldierResource> findAll() {
+    return soldierRepository
+        .findAll()
+        .stream()
+        .map(soldierMapper::toDTO)
+        .collect(Collectors.toList());
+  }
 }

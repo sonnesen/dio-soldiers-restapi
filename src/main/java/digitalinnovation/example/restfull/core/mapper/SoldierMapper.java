@@ -9,9 +9,9 @@ import digitalinnovation.example.restfull.domain.entity.Soldier;
 @Mapper(uses = RacaMapper.class)
 public interface SoldierMapper {
 
-    SoldierMapper INSTANCE = Mappers.getMapper(SoldierMapper.class);
-    
-    Soldier toModel(SoldierResource soldierResource);
-    
-    SoldierResource toDTO(Soldier soldier);
+  SoldierMapper INSTANCE = Mappers.getMapper(SoldierMapper.class);
+
+  Soldier toModel(SoldierResource soldierResource);
+
+  SoldierResource toDTO(Soldier soldier);
 }

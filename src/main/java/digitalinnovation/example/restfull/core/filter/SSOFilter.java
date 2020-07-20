@@ -23,29 +23,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SSOFilter implements Filter {
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-	    throws IOException, ServletException {
-	log.info("Chegou no portão do castelo");
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    log.info("Chegou no portão do castelo");
 
-	HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-	Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
+    HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+    Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
 
-	Map<String, String> mapHeaders = Collections.list(headerNames)
-		.stream()
-		.collect(Collectors.toMap(key -> key, httpServletRequest::getHeader));
+    Map<String, String> mapHeaders =
+        Collections.list(headerNames)
+            .stream()
+            .collect(Collectors.toMap(key -> key, httpServletRequest::getHeader));
 
-	Optional<String> optional = Optional.ofNullable(mapHeaders.get("authorization"));
+    Optional<String> optional = Optional.ofNullable(mapHeaders.get("authorization"));
 
-	if (optional.isPresent() && "53cr37".equals(optional.get())) {
-	    chain.doFilter(request, response);
-	} else {
-	    log.info("Entrada não autorizada!");
-	    HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-	    httpServletResponse.sendError(403);
-	}
-
-	log.info("Saiu do portão castelo");
+    if (optional.isPresent() && "53cr37".equals(optional.get())) {
+      chain.doFilter(request, response);
+    } else {
+      log.info("Entrada não autorizada!");
+      HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+      httpServletResponse.sendError(403);
     }
 
+    log.info("Saiu do portão castelo");
+  }
 }

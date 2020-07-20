@@ -26,18 +26,17 @@ import lombok.Setter;
 @JsonInclude(Include.NON_NULL)
 public class SoldierResource extends RepresentationModel<SoldierResource> {
 
-    private Long id;
+  private Long id;
 
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String nome;
+  @NotBlank
+  @Size(min = 1, max = 200)
+  private String nome;
 
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String raca;
+  @NotBlank
+  @Size(min = 1, max = 200)
+  private String raca;
 
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String arma;
-
+  @NotBlank
+  @Size(min = 1, max = 200)
+  private String arma;
 }

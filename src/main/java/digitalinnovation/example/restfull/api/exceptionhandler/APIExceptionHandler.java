@@ -13,10 +13,9 @@ import digitalinnovation.example.restfull.domain.exception.SoldierNotFoundExcept
 @ControllerAdvice
 public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(SoldierNotFoundException.class)
-    public ResponseEntity<Object> handleEntidadeNaoEncontrada(Exception e, WebRequest request) {
-	var status = HttpStatus.NOT_FOUND;
-	return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), status, request);
-    }
-
+  @ExceptionHandler(SoldierNotFoundException.class)
+  public ResponseEntity<Object> handleEntidadeNaoEncontrada(Exception e, WebRequest request) {
+    var status = HttpStatus.NOT_FOUND;
+    return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), status, request);
+  }
 }
